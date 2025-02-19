@@ -54,7 +54,7 @@
         }
 
         // WebSocket 연결 추가
-        var socket = new WebSocket("https://1fbe-165-132-45-94.ngrok-free.app");
+        var socket = new WebSocket("wss://5a15-165-132-45-94.ngrok-free.app");
         
         socket.onmessage = function(event) {
             receiveBPM(event.data);
