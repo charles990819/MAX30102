@@ -55,6 +55,24 @@
 
         // WebSocket 연결 추가
         var socket = new WebSocket("wss://5a15-165-132-45-94.ngrok-free.app");
+
+socket.onopen = function(event) {
+    console.log("✅ WebSocket 연결 성공!");
+};
+
+socket.onerror = function(error) {
+    console.error("❌ WebSocket 오류 발생:", error);
+};
+
+socket.onmessage = function(event) {
+    console.log("📥 데이터 수신:", event.data);
+    receiveBPM(event.data);
+};
+
+socket.onclose = function(event) {
+    console.warn("🔌 WebSocket 연결 종료:", event);
+};
+
         
         socket.onmessage = function(event) {
             receiveBPM(event.data);
