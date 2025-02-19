@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BPM Graph</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="bpmChart" width="400" height="200"></canvas>
+    <script>
+        var ctx = document.getElementById('bpmChart').getContext('2d');
+        var bpmData = [];
+        var timeLabels = [];
+        var maxDataPoints = 20; // 최대 표시할 데이터 개수
+
+        var bpmChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: timeLabels,
+                datasets: [{
+                    label: 'BPM',
+                    data: bpmData,
+                    borderColor: 'red',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: { title: { display: true, text: 'Time' } },
+                    y: { title: { display: true, text: 'BPM' }, min: 40, max: 180 }
+                }
+            }
+        });
+
+        function updateChart(bpm) {
+            var now = new Date().toLocaleTimeString();
+            
+            if (bpmData.length >= maxDataPoints) {
+                bpmData.shift();
+                timeLabels.shift();
+            }
+            
+            bpmData.push(bpm);
+            timeLabels.push(now);
+            bpmChart.update();
+        }
+
+        function receiveBPM(data) {
+            var bpmValue = parseInt(data);
+            if (!isNaN(bpmValue)) {
+                updateChart(bpmValue);
+            }
+        }
+    </script>
+</body>
+</html>
